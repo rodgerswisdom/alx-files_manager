@@ -1,23 +1,27 @@
-const express = require('express');
-const redis = require('redis');
+// const express = require('express');
+// const redis = require('redis');
+import express from 'express';
+// import redis from 'redis';
+import { creatClient } from 'redis';
+
 
 class RedisClient {
   constructor() {
-    this.client = redis.createClient();
+      //  this.client = redis.createClient();
+
+       this.client = createClient();
+
+       client.on('error', err => console.log('Redis Client Error', err.message));
+
+       await client.connect();
   }
     
-  const isAlive = async () => {
-    try{
-        await this.client.on(
-          'connect',
-          ()=>{
-            console.log('Resis client conncected')
-            return true
-          }
-        );
-    }catch (e){
-        console.error(`Resis Error: ${e}`);
-    }
+  isAlive(){
+      /**
+       * Checks if redis is connected
+       * @return: True if connected, False if otherwise
+       */
+      return client.connected
   }
 
 
