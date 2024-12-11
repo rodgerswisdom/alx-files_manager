@@ -1,39 +1,9 @@
-# Node modules
-node_modules/
+node_modules
+package-lock.json
+_tests
+[0-9]*-main.js
 
-# Logs
-logs
-*.log
-npm-debug.log*
+.nyc_output
+coverage
+```
 
-# Environment variables
-.env
-
-# SQLite database files
-*.sqlite
-
-# Optional dependency directories
-bower_components/
-jspm_packages/
-
-# Build output
-dist/
-build/
-
-# Temporary files
-*.tmp
-*.temp
-
-# IDE and editor files
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# Operating system files
-.DS_Store
-Thumbs.db
-
-# Other potential files to ignore
-*.tgz
-*.zip

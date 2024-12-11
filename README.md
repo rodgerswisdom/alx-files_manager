@@ -1,13 +1,60 @@
-This project is a summary of this back-end trimester: authentication, NodeJS, MongoDB, Redis, pagination and background processing.
+# 0x04. Files manager
+le file management API that allows users to:
 
-The objective is to build a simple platform to upload and view files:
+- Upload files
+- Retrieve information about the files
+- Download the files
+- Share uploaded files with other users
 
-    User authentication via a token
-    List all files
-    Upload a new file
-    Change permission of a file
-    View a file
-    Generate thumbnails for images
+## How to Run
 
 
-# alx-files_manager
+Install required dependencies
+
+```
+cd alx-files_manager
+npm install
+```
+
+Start worker
+
+```
+npm run start-worker
+```
+
+Start express server
+
+```
+npm run start-server
+```
+
+## Environment
+
+Environment variables you can adjust when running the express server
+
+- `PORT`: express server's port
+- `DB_HOST`: mongodb's server host address
+- `DB_PORT`: mongodb's port
+- `DB_DATABASE`: database to use
+- `FOLDER_PATH`: absolute path to folder to store files
+
+
+## Tests
+
+Specify different `DB_DATABASE` and `FOLDER_PATH` environment when running test
+to avoid data loss in main database and folder. Check out [test](tests/) folder
+for unit tests.
+
+- Run specific test
+
+```
+DB_DATABASE='test_database' FOLDER_PATH='/tmp/test_folder' npm test tests/testFile.js
+```
+
+- Run all tests
+
+```
+DB_DATABASE='test_database' FOLDER_PATH='/tmp/test_folder' npm run test-all
+```
+
+

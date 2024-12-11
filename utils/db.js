@@ -1,39 +1,60 @@
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb';
 
-class DBClient{
-    constructor(){
-    const connectionString = process.env.ATLAS_URI || "";
-    const client = new MongoClient(connectionString);
-    let conn;
-    try {
-      conn = await client.connect();
-    } catch(e) {
-    console.error(e);
-    }
-    let db = conn.db("sample_training");
-    export default db;
-    }
+class DBClient {
+  /**
+   * Initializes a new instance of DBClient
+   */
+  constructor() {
+    const HOST = process.env.DB_HOST || 'localhost';
+    const PORT = process.env.BD_PORT || 27017;
+    const DATABASE = process.env.DB_DATABASE || 'files_manager';
+    const URI = `mongodb://${HOST}:${PORT}`;
+    this.mongoClient = new MongoClient(URI, { useUnifiedTopology: true });
+    this.mongoClient.connect((error) => {
+      if (!error) this.db = this.mongoClient.db(DATABASE);
+    });
+  }
 
-    isAlive(){
-        return this.client.isconnected;
-    }
+  /**
+   * Check mongodb client's connection status
+   * @returns {boolean} mongoClient connection status
+   */
+  isAlive() {
+    return this.mongoClient.isConnected();
+  }
 
-    async nbUsers(){
-        const userCollection = this.getCollection('user');
-        const numberofUsers = await userCollection.countDocuments();
-        return numberofUSers;
-    }
+  /**
+   * Retrieves specified collection from database
+   * @returns {import("mongodb").Collection} - users collection object
+   */
+  getCollection(collectionName) {
+    const collection = this.db.collection(collectionName);
+    return collection;
+  }
 
-    async nbFiles(){
-        const userFiles = this.getCollection('files');
-        const numberofFiles = await userFiles.countDocument();
-        return numberofFiles;
-    }
+  async nbUsers() {
+    const usersCollection = this.getCollection('users');
+    const numberOfUsers = await usersCollection.countDocuments();
+    return numberOfUsers;
+  }
 
-    async close(){
-        return this.client.close()
-    }
+  /**
+   * Queries 'files' collection
+   * @returns {number} - number of documents in files collection
+   */
+  async nbFiles() {
+    const filesCollection = this.getCollection('files');
+    const numberOfFiles = filesCollection.countDocuments();
+    return numberOfFiles;
+  }
+
+  /**
+   * Closes connection to mongodb client
+   */
+  async close() {
+    await this.mongoClient.close();
+  }
 }
 
-dbClient = new DBClient();
+const dbClient = new DBClient();
 export default dbClient;
